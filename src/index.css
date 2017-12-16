@@ -1,0 +1,221 @@
+body {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  font: 14px "Century Gothic", Futura, sans-serif;
+  background: darkgreen;
+  /*background: rgb(43, 64, 35);*/
+}
+
+table{
+    width: 100%;
+}
+
+ol {
+  
+  padding-left: 0%;
+     
+}
+
+ul, li {
+  font-size: 70%;
+  list-style: decimal;
+   margin-left: 4%;
+   padding: 0;
+}
+
+/*Game Board*/
+
+.game {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  margin-top: 2vh;
+}
+
+.game-board{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+.board-row{
+    width: auto;
+    display: inline-flex;
+    flex-direction: row;
+    margin: 0;
+    height: 3.2vw;
+    box-shadow: .25px 1px 2px 2px dimgray;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.square {
+  background: #fff;
+  color: transparent;
+  border: 1px solid dimgray;
+  float: left;
+  font-size: 2.5vw;
+  font-weight: bold;
+  line-height: 3.5vw;
+  height: 3.5vw;
+  width: 3.5vw;    
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  flex: 1 100%;
+  box-shadow: .25px .25px 1px 1px rgba(140,140,140,.3) inset;
+}
+
+.square-lg {
+  height: 5.5vw;
+  width: 5.5vw;    
+}
+
+.square:focus {
+  outline: blue;
+}
+
+.square:hover {
+  color: silver;    
+  border: 1px solid silver;
+  box-shadow: .25px .25px 1px 1px rgba(192,192,192,.6) inset;    
+}
+
+/*SIDEBAR*/
+
+.sidebar{
+    background: whitesmoke;
+    width: 30vw;
+    height: auto;
+    padding: 1vw;
+    border-radius: 0px 10px 10px 0px;
+    margin-right: 5px;
+    margin-top: -1.5vh;
+    font-size: 4vh;
+    box-shadow: .25px 1px 2px 2px #888888;
+}
+
+#sidebar_toggle{
+    border-radius: 10px;
+    margin-left: 27vw;
+    background: transparent;
+    border: none;
+}
+
+#sidebar_toggle:hover{
+    background: white;
+    border: 1px solid dimgray;
+}
+
+#title{
+    margin-top: -2vh;
+    font-size: 100%;
+    width: 100%;
+    text-align: center;
+    letter-spacing: .5vw;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+#button-collection{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.message{
+    font-size: 50%;
+    border: .1px solid black;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+/*Panel*/
+
+#title {
+  font-size: 200%;
+  color: black;
+}
+
+.score-info{
+    text-align: center;
+}
+
+.blue-status{
+    text-align: center;
+    color: blue;
+    text-decoration: underline;
+}
+
+.red-status{
+    text-align: center;
+    color: maroon;
+    text-decoration: underline;
+}
+
+#display {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 98%;
+    height: auto;
+    overflow: scroll;
+}
+
+.newPanel {
+    display: block;
+    font-size: 50%;
+    padding: 5px;
+    margin: 1vh;
+    text-align: center;
+}
+
+.buttons{
+    padding: 5px;
+    text-align: center;
+}
+
+.button-active{
+    background: dimgray;
+    border-radius: 5px;
+    color:silver;
+}
+
+#start-button{
+    border-radius: 5px;
+    background: rgba(212,175,55,.8);
+    font-weight: 700;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-iteration-count: infinite;
+    animation-name: start-glow;
+    animation-duration: 8s;
+    animation-iteration-count: infinite;
+}
+
+/* Standard syntax */
+@keyframes start-glow {
+    0%   {background-color: white;}
+    30%   {background-color: white;}
+    50%  {background-color: rgba(212,175,55,.6); 
+          box-shadow: 0px 0px 20px rgba(212,175,55,.6);
+          border: 1px solid silver;
+          }
+    70%   {background-color: white;}
+    100% {background-color: white;}
+}
+
+/* Webkit Syntax */
+@-webkit-keyframes start-glow {
+    0%   {background-color: white;}
+    50%  {background-color: rgba(212,175,55,.8);;}
+    100% {background-color: white;}
+}
+
