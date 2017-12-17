@@ -46,7 +46,6 @@ class App extends React.Component {
   }    
    
   componentWillMount(){
-      //test for git!
       this.newGame(15,0,2);
   }    
    
