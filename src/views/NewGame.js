@@ -6,12 +6,21 @@ class NewGame extends Component{
             this.state = {
                 twoPlayer: false,
                 boardSize: 15,    
-                difficulty: 0,
-                tileSize: 2,
+                difficulty: "easy",
+                tileSize: "med",
                 aStyle:[],
                 bStyles:[],  
             }
             this.handleOnSubmit=this.handleOnSubmit.bind(this);
+        }
+    
+        handleOnClick(e){
+            const name = e.target.name;
+            const value = e.target.value;
+            
+            this.setState({
+              [name]: value,
+          })
         }
     
         handleOnChange(e){
@@ -49,13 +58,18 @@ class NewGame extends Component{
             const difficulty_button_array = ["easy","hard"];
             const difficulty_buttons = difficulty_button_array.map((label,index) => {
                 let difficultyStyle;
-                if(this.state.difficulty === index){
+                if(this.state.difficulty === label){
                     difficultyStyle = "button-active";
                 } else {
                     difficultyStyle = "button-inactive";
                 }
                 return (
-                    <button className={difficultyStyle} key={label}>
+                    <button
+                        onClick={(e) => this.handleOnClick(e)}
+                        className={difficultyStyle}
+                        name="difficulty"
+                        value={label}
+                        key={label}>
                         {label}
                     </button>
                 )
@@ -64,13 +78,17 @@ class NewGame extends Component{
             const tilesize_button_array = ["xs","sm","med","lg","xl"];
             const tilesize_buttons = tilesize_button_array.map((label,index) => {
                 let tilesizeStyle;
-                if(this.state.tileSize === index){
+                if(this.state.tileSize === label){
                     tilesizeStyle = "button-active";
                 } else {
                     tilesizeStyle = "button-inactive";
                 }
                 return (
-                    <button className={tilesizeStyle} key={label}>
+                    <button className={tilesizeStyle}
+                            onClick={(e) => this.handleOnClick(e)}
+                            name="tileSize"
+                            value={label}
+                            key={label}>
                         {label}
                     </button>
                 )
@@ -81,17 +99,24 @@ class NewGame extends Component{
                     <div className="buttons">
                         <button
                             className = {singlePlayerStyle}
-                            onClick = {() => this.props.onClick(true)}
+                            name="twoPlayer"
+                            onClick = {() => this.handleOnClick(false)}
                         >
                             SINGLE PLAYER
                         </button>
                         <button
-                            className = {twoPlayerStyle}        
+                            className = {twoPlayerStyle}
+                            name="twoPlayer"
+                            onClick = {() => this.handleOnClick(true)}
                         >
                                 TWO PLAYER
                         </button>
                     </div>
-                    <p>Number of Squares</p>
+                    <p>Board:
+                        <span className="board_size">
+                            {this.state.boardSize}X{this.state.boardSize}
+                        </span>
+                    </p>
                         <input 
                             type="range" 
                             min="5" 
