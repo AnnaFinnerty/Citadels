@@ -17,7 +17,6 @@ class NewGame extends Component{
         handleOnClick(e){
             const name = e.target.name;
             const value = e.target.value;
-            
             this.setState({
               [name]: value,
           })
@@ -100,14 +99,16 @@ class NewGame extends Component{
                         <button
                             className = {singlePlayerStyle}
                             name="twoPlayer"
-                            onClick = {() => this.handleOnClick(false)}
+                            value={false}
+                            onClick = {(e) => this.handleOnClick(e)}
                         >
                             SINGLE PLAYER
                         </button>
                         <button
                             className = {twoPlayerStyle}
                             name="twoPlayer"
-                            onClick = {() => this.handleOnClick(true)}
+                            value={true}
+                            onClick = {(e) => this.handleOnClick(e)}
                         >
                                 TWO PLAYER
                         </button>

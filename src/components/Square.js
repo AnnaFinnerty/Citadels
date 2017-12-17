@@ -22,8 +22,8 @@ class Square extends Component {
       super(props);
   }
   render(){
-      console.log("SQUARE PROPS");
-      console.log(this.props);
+      //console.log("SQUARE PROPS");
+      //console.log(this.props);
       
       const value = this.props.value;
       const team = this.props.team;
