@@ -10,6 +10,7 @@ class Board extends React.Component {
       //this needs a callback to human player/computer player, or to be moved!
   renderSquare(i) {
       const boardSize = this.props.boardSize;
+      const messageCB = this.props.messageCallBack;
       if (this.props.teams[i] !== this.props.teams[i+1]){
           //console.log("no match right");
           //console.log(i);
@@ -27,10 +28,12 @@ class Board extends React.Component {
                         console.log("blue isolation!");
                         this.props.teams[i] = bStyles;
                         this.props.squares[i] = 1;
+                        messageCB("captured",i);
                     } else {
                         console.log("red isolation!");
                         this.props.teams[i] = aStyles;
                         this.props.squares[i] = 1;
+                        messageCB("captured",i);
                     }
                    }
                }
@@ -39,6 +42,7 @@ class Board extends React.Component {
     return (
       <Square
         i = {i}
+        selectedI = {this.props.selectedI}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
         team={this.props.teams[i]}
@@ -49,14 +53,14 @@ class Board extends React.Component {
   
   render() {
     const boardSize = this.props.boardSize;
-    console.log(boardSize);
+    //console.log(boardSize);
     const board_rows = Array(boardSize).fill().map((a,b) => {
         //console.log("board-rows!");
         //console.log(b);
         const board_cols = Array(boardSize).fill().map((c,d) => {
             //console.log("board-cols");
             //console.log(d);
-            const i = (b*boardSize) + d
+            const i = (b*boardSize) + d;
             //console.log(i); 
             return(
                 <div className="board_square" key={i}>{this.renderSquare(i)}</div>

@@ -44,8 +44,15 @@ class Square extends Component {
           backgroundSize: 'contain',
       }
       
+      let classStyle;
+      if(this.props.selectedI === this.props.i){
+          classStyle = "square-selected";
+      } else {
+          classStyle = "square";
+      }
+      
       return (
-        <button className="square" onClick={this.props.onClick} style = {style}  >
+        <button className={classStyle} onClick={this.props.onClick} style = {style}  >
           {this.props.value}
         </button>
       );

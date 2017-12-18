@@ -32,7 +32,6 @@ class NewGame extends Component{
         }
     
         handleOnChange(e){
-          console.log(e.target.value);
           const input = Number(e.target.value);
           const value = Math.floor(input);
           this.setState({
@@ -50,8 +49,8 @@ class NewGame extends Component{
         }
     
         render(){
-            console.log("New Game panel render");
-            console.log(this.state);
+            //console.log("New Game panel render");
+            //console.log(this.state);
             
             let singlePlayerStyle;
             let twoPlayerStyle;
