@@ -73,7 +73,8 @@ class Game extends React.Component {
        //run computer player after delay if two player is true  
        if (this.props.twoPlayer && this.props.xIsNext){
         console.log("computer player go!")
-        setTimeout(function(){computer_player(!playing,squares,teams,boardSize, updateCB,messageCB)}, 100)
+        setTimeout(function(){
+            computer_player(!playing,squares,teams,boardSize, updateCB,messageCB)}, 1000)
         } 
   }   
     

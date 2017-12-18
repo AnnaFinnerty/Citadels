@@ -39,7 +39,7 @@ class App extends React.Component {
       aStyle:[],
       bStyles:[],
       sideBar: true,    
-      panel: "new",
+      panel: "none",
       winner: false,
       score: [],
       message: "Defend your kingdom! Your enemy plots against you...",
@@ -143,7 +143,7 @@ class App extends React.Component {
       } else {
           console.log("no next player!");
           this.setState({
-              xIsNext: this.state.xIsNext,
+              xIsNext: !this.state.xIsNext,
           })
       }
   }    
