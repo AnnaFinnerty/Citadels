@@ -14,6 +14,7 @@ import computer from './glyphicons/display.svg';
 
 import calculate_winner from './scripts/calculate_winner';
 import calculate_score from './scripts/calculate_score';
+import coordinates from './scripts/coordinates';
 
 import Rules from './views/Rules'
 import NewGame from './views/NewGame'
@@ -31,8 +32,8 @@ class App extends React.Component {
       stepNumber: 0,
       xIsNext: true,    
       nextTeam: 'A',
-      twoPlayer: false,
-      boardSize: undefined,    
+      twoPlayer: true,
+      boardSize: 10,    
       difficulty: undefined,
       tileSize: 3.5,
       aStyle:[],
@@ -41,12 +42,13 @@ class App extends React.Component {
       panel: "new",
       winner: false,
       score: [],
-      message: "Defend your kingdom! Your enemy is plotting against you...",
+      message: "Defend your kingdom! Your enemy plots against you...",
+      selectedI: undefined,
     };     
   }    
    
   componentWillMount(){
-      this.newGame(15,0,2);
+      this.newGame(10,0,2);
   }    
    
   //give each square a random starting value greater than one and less than four    
@@ -126,23 +128,71 @@ class App extends React.Component {
               }]),
               stepNumber: this.state.stepNumber + 1,
       });
-      console.log("HISTORY");
-      console.log(this.state.history);
+      //console.log("HISTORY");
+      //console.log(this.state.history);
   }    
         
   xIsNextCallBack(x){
       console.log("x is next callBack!");
       console.log(x);
       if (x){
+          console.log("next player!");
           this.setState({
               xIsNext: !this.state.xIsNext,
+          })
+      } else {
+          console.log("no next player!");
+          this.setState({
+              xIsNext: this.state.xIsNext,
           })
       }
   }    
   
-  messageCallBack(message,i){
+  handleMessage(message,i){
+      let team1;
+      let team2;
+      if (this.state.xIsNext){
+          team1 = "Blue";
+          team2 = "Red";
+      } else {
+          team1 = "Red";
+          team2 = "Blue";
+      }
+      //console.log("teams in message");
+      //console.log(team1);
+      //console.log(team2);
+      const xy = coordinates(i,this.state.boardSize);
+      let newMessage;
+      switch(message){
+          case "attack":
+              newMessage = team1 + " attacked " + team2 + " at square " + xy;
+              this.xIsNextCallBack(true);
+              break
+              
+          case "conquer":
+              newMessage = team1 + " conquered square " + xy + "!";
+              this.xIsNextCallBack(true);
+              break
+              
+          case "fortify":
+              newMessage = team1 + " fortified square " + xy + "!";
+              this.xIsNextCallBack(true);
+              break 
+              
+          case "unplayable":
+              newMessage = "Oops! You can't make that move.";
+              this.xIsNextCallBack(false);
+              break    
+              
+          case "captured":
+              newMessage = "The square at " + xy + " was captured! " + team2 + " gets another turn.";
+              this.xIsNextCallBack(false);
+              break      
+      }
+      
       this.setState({
-          message: message,
+          message: newMessage,
+          selectedI: i,
       })
   }    
     
@@ -262,7 +312,6 @@ class App extends React.Component {
                       <button id="sidebar_toggle"
                               style={toggleStyle}      
                       >
-                        
                       </button>
                       
                       <div id="title">CITADELS</div>    
@@ -329,6 +378,7 @@ class App extends React.Component {
           <Game
             squares={current.squares}
             teams={current.teams}
+            selectedI={this.state.selectedI}
             xIsNext={this.state.xIsNext}
             onClick={(i) => this.handleClick(i)}
             boardSize = {this.state.boardSize}
@@ -336,7 +386,7 @@ class App extends React.Component {
             twoPlayer = {this.state.twoPlayer}
             historyCallBack = {(squares,teams) => this.historyCallBack(squares,teams)}
             xIsNextCallBack = {(bool) => this.xIsNextCallBack(bool)}
-            messageCallBack = {(message,xy) => this.messageCallBack(message,xy)}
+            messageCallBack = {(message,xy) => this.handleMessage(message,xy)}
           />
           
         </div>

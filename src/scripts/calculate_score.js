@@ -2,9 +2,9 @@ import aStyles from './aStyles';
 import bStyles from './bStyles';
 
 function calculate_score(squares,teams) {
-  console.log("calculating scores!");
-  console.log(squares);
-  console.log(teams);
+  //console.log("calculating scores!");
+  //console.log(squares);
+  //console.log(teams);
     
   var redScore = 0;
   var blueScore = 0 ;

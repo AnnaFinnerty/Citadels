@@ -16,14 +16,22 @@ class NewGame extends Component{
     
         handleOnClick(e){
             const name = e.target.name;
-            const value = e.target.value;
+            let value;
+            if(name==="twoPlayer"){
+                if(e.target.value === "true"){
+                    value = true;
+                } else {
+                    value = false;
+                }
+            } else {
+                value = e.target.value;
+            }
             this.setState({
               [name]: value,
           })
         }
     
         handleOnChange(e){
-          console.log(e.target.value);
           const input = Number(e.target.value);
           const value = Math.floor(input);
           this.setState({
@@ -41,8 +49,8 @@ class NewGame extends Component{
         }
     
         render(){
-            console.log("New Game panel render");
-            console.log(this.state);
+            //console.log("New Game panel render");
+            //console.log(this.state);
             
             let singlePlayerStyle;
             let twoPlayerStyle;
@@ -99,7 +107,7 @@ class NewGame extends Component{
                         <button
                             className = {singlePlayerStyle}
                             name="twoPlayer"
-                            value={false}
+                            value="false"
                             onClick = {(e) => this.handleOnClick(e)}
                         >
                             SINGLE PLAYER
@@ -107,7 +115,7 @@ class NewGame extends Component{
                         <button
                             className = {twoPlayerStyle}
                             name="twoPlayer"
-                            value={true}
+                            value="true"
                             onClick = {(e) => this.handleOnClick(e)}
                         >
                                 TWO PLAYER

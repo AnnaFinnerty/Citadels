@@ -73,6 +73,23 @@ ul, li {
   box-shadow: .25px .25px 1px 1px rgba(140,140,140,.3) inset;
 }
 
+.square-selected {
+  background: #fff;
+  color: transparent;
+  border: 2px solid red;
+  float: left;
+  font-size: 2.5vw;
+  font-weight: bold;
+  line-height: 3.5vw;
+  height: 3.5vw;
+  width: 3.5vw;    
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  flex: 1 100%;
+  box-shadow: .25px .25px 1px 1px rgba(140,140,140,.3) inset;    
+}
+
 .square-lg {
   height: 5.5vw;
   width: 5.5vw;    

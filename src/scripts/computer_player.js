@@ -1,28 +1,18 @@
 import aStyles from './aStyles';
 import bStyles from './bStyles';
 
+import coordinates from './coordinates';
 import test_surroundings from './test_surroundings';
 import play from './play';
 
-function computer_player(playing, squares,teams, boardSize, callBack){
+function computer_player(playing, squares,teams, boardSize, updateCB, messageCB){
     console.log("Computer player's Turn");
-    console.log(squares);
-
-    
-      
+    //console.log(squares);
+    //console.log(boardSize);
     //console.log(teams);
     
-    //a function to find the coordinates of an square position(i)
-    function coordinates(i,boardSize){
-        const x = i % boardSize;
-        const y = Math.floor(i/boardSize);
-        const xy = [x,y];
-        return xy;
-    }
-    
-    
     // a function to find a square for the computer to play
-    function choose_easy(){
+    function choose_easy(boardSize){
         
         //locate the current citadels
         var red_citadel_spots = [];
@@ -39,6 +29,7 @@ function computer_player(playing, squares,teams, boardSize, callBack){
 
         }); 
 
+        ;
         // sort to return highest red citadel space, lowest blue
         //!!! CAN BE IMPROVED FOR HARD!!!
         blue_citadel_spots.sort()
@@ -46,8 +37,12 @@ function computer_player(playing, squares,teams, boardSize, callBack){
 
         const red_citadel = red_citadel_spots[0];
         const blue_citadel = blue_citadel_spots[0];
-        const red_xy = coordinates(red_citadel);
-        const blue_xy = coordinates(blue_citadel);
+        //console.log("citadel spots!");
+        //console.log(red_citadel);
+        //console.log(blue_citadel);
+        //console.log(boardSize);
+        const red_xy = coordinates(red_citadel,boardSize);
+        const blue_xy = coordinates(blue_citadel,boardSize);
         
         console.log("citadel coordinates!");
         console.log(red_xy);
@@ -61,7 +56,9 @@ function computer_player(playing, squares,teams, boardSize, callBack){
             } else {
                 citadel = blue_xy;
             }
-            var xy = coordinates(y);
+            var xy = coordinates(y,boardSize);
+            //console.log("in distances");
+            //console.log(xy);
             var x_diff = Math.abs(xy[0]-citadel[0]);
             var y_diff = Math.abs(xy[1]-citadel[1]);
             var distance = Math.floor(Math.sqrt(x_diff*x_diff+y_diff*y_diff));
@@ -69,23 +66,28 @@ function computer_player(playing, squares,teams, boardSize, callBack){
         });
 
         distances.sort(function (a, b) {  return a[0] - b[0];  });
+        //console.log("distances");
+        //console.log(distances);
         
-        const potential_moves = distances.map((c,d) => {
+        const potential_moves = [];
+        
+        const eval_potential_moves = distances.map((c,d) => {
            if(d<10){
                //make sure the square touches at least one blue and red tile
                //!!! Can be improved !!!
                const square = c[1];
-               var blue_test = test_surroundings(square,bStyles,squares,teams, boardSize);
-               var red_test = test_surroundings(square,aStyles,squares,teams,boardSize);
+               var blue_test = 
+               test_surroundings(square,aStyles,squares,teams,boardSize);
+               var red_test = test_surroundings(square,bStyles,squares,teams,boardSize);
                if(red_test && blue_test){
-               console.log("potential moves!");
-               console.log(blue_test);
-               console.log(red_test);
-                   return square;
+               //console.log("potential moves!");
+               //console.log(blue_test);
+               //console.log(red_test);
+                   potential_moves.push(square);
                } else {
                   console.log("not a potential move!");
-                  console.log(blue_test);
-                  console.log(red_test); 
+                  //console.log(blue_test);
+                  //console.log(red_test); 
                }
            } else {
                return null;
@@ -100,10 +102,18 @@ function computer_player(playing, squares,teams, boardSize, callBack){
         return potential_moves;
     }
     
-    var possible_moves = choose_easy();
+    var possible_moves = choose_easy(boardSize);
     var random = Math.floor(Math.random()*possible_moves.length);
+    //an i is selected
     var i = possible_moves[random];
-    play(i, playing,squares,teams, boardSize, callBack);
+    
+    
+    const play_result = play(i, playing,squares,teams, boardSize);
+    console.log(play_result);
+    const message = play_result[0];
+    
+    updateCB(squares,teams,playing);
+    messageCB(message,i,playing);
     
     
     /*

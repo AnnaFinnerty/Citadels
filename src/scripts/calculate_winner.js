@@ -13,9 +13,9 @@ function calculate_winner(squares,teams,callBack) {
      }
   }    
      
-  console.log("calculate scores");
-  console.log(redCitadel);
-  console.log(blueCitadel);
+  //console.log("calculate winner");
+  //console.log(redCitadel);
+  //console.log(blueCitadel);
     
   if (redCitadel === 0){
       return "BLUE WINS"
