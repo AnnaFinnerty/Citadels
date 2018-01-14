@@ -147,40 +147,32 @@ class App extends React.Component {
   }        
    
   //create history    
-  historyCallBack(squares,teams){
+  historyCallBack(squares,teams,message,i){
       const history = this.state.history;
-      const message = this.state.message;
-      const selectedI = this.state.selectedI;
+      const newMessage = this.writeMessage(message,i);
+      let nextX;
+      if(message === "capture"){
+          nextX = this.state.xIsNext;
+      } else {
+          nextX = this.state.xIsNext ? false : true;
+      }
       this.setState({
               history: history.concat([{
                        squares: squares,
                        teams: teams,
-                       message: message,
-                       selectedI: selectedI,
+                       message: newMessage,
+                       selectedI: i,
               }]),
               stepNumber: this.state.stepNumber + 1,
-              selectedI: selectedI,
+              selectedI: i,
+              message: newMessage,
+              xIsNext: nextX,
       });
       //console.log("HISTORY");
       //console.log(this.state.history);
   }    
-        
-  xIsNextCallBack(x){
-      //console.log("x is next callBack!");
-      if (x){
-          //console.log("next player!");
-          this.setState({
-              xIsNext: !this.state.xIsNext,
-          })
-      } else {
-          //console.log("no next player!");
-          this.setState({
-              xIsNext: this.state.xIsNext,
-          })
-      }
-  }    
-  
-  handleMessage(message,i){
+          
+  writeMessage(message,i){
       let team1;
       let team2;
       if (this.state.xIsNext){
@@ -198,22 +190,22 @@ class App extends React.Component {
       switch(message){
           case "attack":
               newMessage = team1 + " attacked " + team2 + " at square " + xy;
-              this.xIsNextCallBack(true);
+              //this.xIsNextCallBack(true);
               break
               
           case "conquer":
               newMessage = team1 + " conquered square " + xy + "!";
-              this.xIsNextCallBack(true);
+              //this.xIsNextCallBack(true);
               break
               
           case "fortify":
               newMessage = team1 + " fortified square " + xy + "!";
-              this.xIsNextCallBack(true);
+              //this.xIsNextCallBack(true);
               break 
               
           case "unplayable":
               newMessage = "Oops! You can't make that move.";
-              this.xIsNextCallBack(false);
+              //this.xIsNextCallBack(false);
               break    
               
           case "captured":
@@ -222,10 +214,7 @@ class App extends React.Component {
               break      
       }
       
-      this.setState({
-          message: newMessage,
-          selectedI: i,
-      })
+      return newMessage;
   }    
     
   jumpTo(step) {
@@ -454,8 +443,7 @@ class App extends React.Component {
             tileSize = {this.state.tileSize}
             boardSize = {this.state.boardSize}
             tileStyles = {this.state.tileStyles}
-            historyCallBack = {(squares,teams) => this.historyCallBack(squares,teams)}
-            messageCallBack = {(message,xy) => this.handleMessage(message,xy)}
+            historyCallBack = {(squares,teams,message,i) => this.historyCallBack(squares,teams,message,i)}
           />
           
         </div>

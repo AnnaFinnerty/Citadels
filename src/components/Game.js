@@ -46,25 +46,25 @@ class Game extends React.Component {
         
   }
     
-  updateBoard(squares,teams,playing){
-      //console.log("updating board!");
+  updateBoard(squares,teams,message,i){
+      console.log("updating board!");
+      console.log(message,i)
       this.setState({
           squares: squares,
           teams: teams,
       });
     //save move to history
-    this.saveHistory();     
+    this.saveHistory(squares,teams,message,i);     
   }   
     
   //sends current gamestate info back to historyCallBack in app 
-  saveHistory(){
+  saveHistory(squares,teams,message,i){
       const callBack = this.props.historyCallBack;
-      const squares = this.props.squares;
-      const teams = this.props.teams;
       
       //update next player to app
-      callBack(squares,teams);
+      callBack(squares,teams,message,i);
         
+      //computer player setup
        const boardSize = this.state.boardSize;  
        const messageCB = this.props.messageCallBack;
        const updateCB = this.updateBoard;   
@@ -95,10 +95,9 @@ class Game extends React.Component {
             boardSize={this.props.boardSize}
             tileSize={this.props.tileSize}
             onClick={(i) => this.handleClick(i)}
-            callBack={(squares,teams,playing) => this.updateBoard(squares,teams,playing)}
+            updateCB={(squares,teams,playing) => this.updateBoard(squares,teams,playing)}
             xIsNext = {this.props.xIsNext}
             nextTeam = {this.state.nextTeam}
-            messageCallBack = {(message,xy) => this.props.messageCallBack(message,xy)}
           />
     );
   }

@@ -10,7 +10,7 @@ class Board extends React.Component {
       //this needs a callback to human player/computer player, or to be moved!
   renderSquare(i) {
       const boardSize = this.props.boardSize;
-      const messageCB = this.props.messageCallBack;
+      const updateCB = this.props.updateCB;
       
       if (this.props.teams[i] !== this.props.teams[i+1]){
           //console.log("no match right");
@@ -29,12 +29,12 @@ class Board extends React.Component {
                         //console.log("blue isolation!");
                         this.props.teams[i] = bStyles;
                         this.props.squares[i] = 1;
-                        messageCB("captured",i);
+                        updateCB("captured",i);
                     } else {
                         //console.log("red isolation!");
                         this.props.teams[i] = aStyles;
                         this.props.squares[i] = 1;
-                        messageCB("captured",i);
+                        updateCB("captured",i);
                     }
                    }
                }

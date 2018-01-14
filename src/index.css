@@ -6,7 +6,7 @@ body {
   font: 14px "Century Gothic", Futura, sans-serif;
   background: indigo;
   overflow: scroll;
-  background: rgb(51, 0, 102);
+  background: rgb(31, 0, 85);
 }
 
 table{
@@ -78,8 +78,24 @@ ul, li {
   padding: 0;
   text-align: center;
   flex: 1 100%;
-  box-shadow: .25px .25px 1px 1px rgba(140,140,140,.3) inset;    
+  box-shadow: .25px .25px 1px 1px rgba(140,140,140,.3) inset;
+  -webkit-animation-name: select-blink; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: .6s; /* Safari 4.0 - 8.0 */
+  -webkit-animation-iteration-count: 3;
+  animation-name: select-blink;
+  animation-duration: .6s;
+  animation-iteration-count: 3;    
 }
+
+/* Standard syntax */
+@keyframes select-blink {
+    0%   {border: 1px solid dimgray;}
+    50%  {border: 1px solid dimgray;
+          }
+    51%   {border: 2px solid red;}
+    100% {border: 2px solid red;}
+}
+
 
 .square-lg {
   height: 5.5vw;
@@ -200,8 +216,8 @@ ul, li {
     border-radius: 5px;
     background: rgba(212,175,55,.8);
     font-weight: 700;
-    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-name: start-glow; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 8s; /* Safari 4.0 - 8.0 */
     -webkit-animation-iteration-count: infinite;
     animation-name: start-glow;
     animation-duration: 8s;
