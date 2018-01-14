@@ -4,9 +4,9 @@ import bStyles from './bStyles';
 import testSurroundings from './test_surroundings';
 
 function play(i, playing,squares,teams, boardSize, updateCB) {
-    console.log("playing!");
-    console.log(i);
-    console.log(playing);
+    //console.log("playing!");
+    //console.log(i);
+    //console.log(playing);
       
     // If team A is playing  
     if (playing){

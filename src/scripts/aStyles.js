@@ -1,3 +1,3 @@
-const aStyles = ['white','lightblue','blue','midnightblue','indigo','purple','magenta'];
+const aStyles = ['white','lightblue','dodgerblue', 'blue','indigo','purple','magenta'];
 
 export default aStyles;

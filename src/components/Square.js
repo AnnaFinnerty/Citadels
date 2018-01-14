@@ -24,6 +24,7 @@ class Square extends Component {
   render(){
       //console.log("SQUARE PROPS");
       //console.log(this.props);
+      //console.log(this.props.team[this.props.value]);
       
       const value = this.props.value;
       const team = this.props.team;
@@ -38,10 +39,16 @@ class Square extends Component {
       
       const image = image_collection[value];
       
+      const letterSize = ""+this.props.tileSize.split("vw")[0]-1+"vw";
+      
       const style = {
-          backgroundColor: this.props.team[this.props.value],
+          backgroundColor: team[value],
           backgroundImage: `url(${image})`,
           backgroundSize: 'contain',
+          width: this.props.tileSize,
+          height: this.props.tileSize,
+          lineHeigh: this.props.tileSize,
+          fontSize: letterSize,
       }
       
       let classStyle;

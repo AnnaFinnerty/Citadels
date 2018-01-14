@@ -4,8 +4,9 @@ body {
   margin: 0;
   padding: 0;
   font: 14px "Century Gothic", Futura, sans-serif;
-  background: darkgreen;
-  /*background: rgb(43, 64, 35);*/
+  background: indigo;
+  overflow: scroll;
+  background: rgb(51, 0, 102);
 }
 
 table{
@@ -31,14 +32,8 @@ ul, li {
   width: auto;
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: auto;
   margin-top: 2vh;
-}
-
-.game-board{
-    display: inline-block;
-    width: 100%;
-    height: 100%;
 }
 
 .board-row{
@@ -46,7 +41,7 @@ ul, li {
     display: inline-flex;
     flex-direction: row;
     margin: 0;
-    height: 3.2vw;
+    height: auto;
     box-shadow: .25px 1px 2px 2px dimgray;
 }
 
@@ -61,11 +56,7 @@ ul, li {
   color: transparent;
   border: 1px solid dimgray;
   float: left;
-  font-size: 2.5vw;
-  font-weight: bold;
-  line-height: 3.5vw;
-  height: 3.5vw;
-  width: 3.5vw;    
+  font-weight: bold;   
   margin: 0;
   padding: 0;
   text-align: center;
@@ -115,7 +106,7 @@ ul, li {
     border-radius: 0px 10px 10px 0px;
     margin-right: 5px;
     margin-top: -1.5vh;
-    font-size: 4vh;
+    font-size: 3vw;
     box-shadow: .25px 1px 2px 2px #888888;
 }
 
@@ -133,8 +124,8 @@ ul, li {
 
 #title{
     margin-top: -2vh;
-    font-size: 100%;
-    width: 100%;
+    font-size: 90%;
+    width: 95%;
     text-align: center;
     letter-spacing: .5vw;
 }
@@ -205,7 +196,7 @@ ul, li {
     color:silver;
 }
 
-#start-button{
+#start-button-active{
     border-radius: 5px;
     background: rgba(212,175,55,.8);
     font-weight: 700;
@@ -215,6 +206,12 @@ ul, li {
     animation-name: start-glow;
     animation-duration: 8s;
     animation-iteration-count: infinite;
+}
+
+#start-button-inactive{
+    border-radius: 5px;
+    background: silver;
+    font-weight: 500;
 }
 
 /* Standard syntax */
@@ -234,5 +231,17 @@ ul, li {
     0%   {background-color: white;}
     50%  {background-color: rgba(212,175,55,.8);;}
     100% {background-color: white;}
+}
+#quit-box{
+    
+}
+
+#quit-message{
+    font-size: 85%;
+    width: 60%;
+    margin-left: 10%;
+    padding: 10%;
+    border: 1px solid black;
+    border-radius: 10px;
 }
 

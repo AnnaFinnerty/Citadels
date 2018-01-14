@@ -29,7 +29,7 @@ class Game extends React.Component {
    
         
   handleClick(i) {
-    console.log("click");
+    //console.log("click");
 
     this.setState({boardUpdated:false,})
 
@@ -43,39 +43,42 @@ class Game extends React.Component {
     const twoPlayer = this.state.twoPlayer;
     
     human_player(i, playing,squares,teams, boardSize, updateCB, messageCB);
-      
-      
-     
+        
   }
     
   updateBoard(squares,teams,playing){
-      console.log("updating board!");
+      //console.log("updating board!");
       this.setState({
           squares: squares,
           teams: teams,
       });
     //save move to history
-    this.saveHistory(); 
-       
+    this.saveHistory();     
   }   
     
-    
+  //sends current gamestate info back to historyCallBack in app 
   saveHistory(){
       const callBack = this.props.historyCallBack;
-      const squares = this.state.squares;
-      const teams = this.state.teams;
+      const squares = this.props.squares;
+      const teams = this.props.teams;
+      
+      //update next player to app
       callBack(squares,teams);
-      //update next player to app  
+        
        const boardSize = this.state.boardSize;  
        const messageCB = this.props.messageCallBack;
        const updateCB = this.updateBoard;   
        const playing = this.props.xIsNext;
-       //run computer player after delay if two player is true  
+       const difficulty = this.props.difficulty;
+       
+      //run computer player after delay if two player is true  
        if (this.props.twoPlayer && this.props.xIsNext){
-        console.log("computer player go!")
+        //console.log("computer player go!")
         setTimeout(function(){
-            computer_player(!playing,squares,teams,boardSize, updateCB,messageCB)}, 1000)
-        } 
+          computer_player(!playing,difficulty,squares,teams,boardSize, updateCB,messageCB)}, 1000)
+        }
+      
+      //this is where auto mode will hook in
   }   
     
             
@@ -86,10 +89,11 @@ class Game extends React.Component {
      //console.log(this.props.xIsNext);
     return (
           <Board
-            squares={this.state.squares}
-            teams={this.state.teams}
+            squares={this.props.squares}
+            teams={this.props.teams}
             selectedI={this.props.selectedI}
             boardSize={this.props.boardSize}
+            tileSize={this.props.tileSize}
             onClick={(i) => this.handleClick(i)}
             callBack={(squares,teams,playing) => this.updateBoard(squares,teams,playing)}
             xIsNext = {this.props.xIsNext}

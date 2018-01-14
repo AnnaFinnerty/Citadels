@@ -25,19 +25,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {    
-      history: [{
-        squares: Array(15).fill(0),
-        teams: Array(15).fill(),
-      }],
+      history: undefined,
       stepNumber: 0,
       xIsNext: true,    
       nextTeam: 'A',
-      twoPlayer: true,
+      twoPlayer: false,
       boardSize: 10,    
-      difficulty: undefined,
-      tileSize: 3.5,
-      aStyle:[],
-      bStyles:[],
+      difficulty: "easy",
+      tileSize: "5vw",
+      tileStyles:[aStyles,bStyles],
       sideBar: true,    
       panel: "none",
       winner: false,
@@ -46,9 +42,10 @@ class App extends React.Component {
       selectedI: undefined,
     };     
   }    
-   
+  
+  //new game on load    
   componentWillMount(){
-      this.newGame(10,0,2);
+      this.newGame(10,"easy","5vw",false);
   }    
    
   //give each square a random starting value greater than one and less than four    
@@ -56,18 +53,34 @@ class App extends React.Component {
       return Math.floor(Math.random()*3)+1;
   }   
    
-  /*    
-  randomTeams() {
-      const newTeam = Math.floor(Math.random()*5);
-      if (newTeam === 1){
-          return aStyles;
-      } else {
-          return bStyles;
-      }
+  //clear game on win    
+  clearGame(boardSize){
+      this.setState({
+          history: [{
+              squares: Array(15).fill(0),
+              teams: Array(15).fill(),
+          }],
+          stepNumber: 0,
+          xIsNext: true,    
+          nextTeam: 'A',
+          twoPlayer: false,
+          boardSize: 10,    
+          difficulty: undefined,
+          tileSize: 3.5,
+          aStyle:[],
+          bStyles:[],
+          sideBar: true,    
+          panel: "none",
+          winner: false,
+          score: [],
+          message: "Defend your kingdom! Your enemy plots against you...",
+          selectedI: undefined,
+      })
   }    
-  */    
-  newGame(boardSize,difficulty,tileSize){
+    
+  newGame(boardSize,difficulty,tileSize,twoPlayer){
     console.log("NEW GAME!");  
+    console.log(twoPlayer);  
       
     const squares = Array(boardSize*boardSize).fill(4).map(this.randomSquares);
     const teams = Array(boardSize*boardSize).fill();
@@ -79,9 +92,9 @@ class App extends React.Component {
     //set the team placement on the board
       for(var i=0;i<squares.length;i++){
           if (Math.abs(blueCitadelSite-i) < (boardSize*boardSize)*.35){
-              teams[i] = aStyles;
+              teams[i] = this.state.tileStyles[0];
           } else {
-              teams[i] = bStyles;
+              teams[i] = this.state.tileStyles[1];
           } 
       }  
      
@@ -109,41 +122,60 @@ class App extends React.Component {
       teams[blueCitadelSite-this.state.boardSize] = aStyles;
       
       this.setState({
+          history: [{
+                       squares: squares,
+                       teams: teams,
+                       selectedI: undefined,
+              }],
           boardSize: boardSize,
           difficulty: difficulty,
           tileSize: tileSize,
+          twoPlayer: twoPlayer,
           squares: squares,
           teams: teams,
-      })
-  
-      this.historyCallBack(squares,teams);      
+          tileStyles:[aStyles,bStyles],
+          sideBar: true,    
+          panel: "none",
+          winner: false,
+          score: [],
+          message: "Defend your kingdom! Your enemy plots against you...",
+          selectedI: undefined,
+          stepNumber: 0,
+          xIsNext: true,    
+          nextTeam: 'A',
+      })      
   }        
-        
+   
+  //create history    
   historyCallBack(squares,teams){
       const history = this.state.history;
+      const message = this.state.message;
+      const selectedI = this.state.selectedI;
       this.setState({
               history: history.concat([{
                        squares: squares,
                        teams: teams,
+                       message: message,
+                       selectedI: selectedI,
               }]),
               stepNumber: this.state.stepNumber + 1,
+              selectedI: selectedI,
       });
       //console.log("HISTORY");
       //console.log(this.state.history);
   }    
         
   xIsNextCallBack(x){
-      console.log("x is next callBack!");
-      console.log(x);
+      //console.log("x is next callBack!");
       if (x){
-          console.log("next player!");
+          //console.log("next player!");
           this.setState({
               xIsNext: !this.state.xIsNext,
           })
       } else {
-          console.log("no next player!");
+          //console.log("no next player!");
           this.setState({
-              xIsNext: !this.state.xIsNext,
+              xIsNext: this.state.xIsNext,
           })
       }
   }    
@@ -186,7 +218,7 @@ class App extends React.Component {
               
           case "captured":
               newMessage = "The square at " + xy + " was captured! " + team2 + " gets another turn.";
-              this.xIsNextCallBack(false);
+              //this.xIsNextCallBack(false);
               break      
       }
       
@@ -197,14 +229,28 @@ class App extends React.Component {
   }    
     
   jumpTo(step) {
+    //console.log("jump");
+    //console.log(step);
     this.setState({
-      stepNumber: step,
+      stepNumber: step+1,
       xIsNext: (step % 2) === 0,
     });
   }
       
   updatePanel(panel) {
     switch(panel){
+        case "quit":
+            this.setState({
+                panel: "quit",
+            });
+            return;
+            
+        case "new":
+            this.setState({
+                panel: "new",
+            });
+            return;    
+            
         case "rules":
             this.setState({
                 panel: "rules",
@@ -217,11 +263,6 @@ class App extends React.Component {
             });
             return;
         
-        case "new":
-            this.setState({
-                panel: "new",
-            });
-            return;
     }
   }
         
@@ -230,7 +271,9 @@ class App extends React.Component {
     console.log(this.state);
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    
+    //console.log(this.state.stepNumber);
+    //console.log(current.squares);
+      
     const winner = calculate_winner(current.squares,current.teams);  
  
     const score = calculate_score(current.squares,current.teams); 
@@ -282,18 +325,37 @@ class App extends React.Component {
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
-    });    
+    });
+
+    const quit = <div id="quit-box">
+                    <div className="buttons">
+                    <button id="start-button-inactive"
+                                onClick={this.handleOnSubmit}
+                         >
+                            NEW GAME
+                    </button>
+                    </div> 
+                    <p id="quit-message">
+                        Are you sure you want to quit?
+                    </p>        
+                 </div>
      
     let panel;
-    if (this.state.panel === "undo"){
-        panel = moves;
+    if (this.state.panel === "quit"){
+        panel = quit;
     } else if (this.state.panel === "new") {
-        panel = <NewGame 
+        panel = <NewGame
                     boardSize = {this.state.boardSize}
-                    newGameCallBack = {(boardSize,difficulty,tileSize) => this.newGame(boardSize,difficulty,tileSize)}
+                    tileSize = {this.state.tileSize}
+                    twoPlayer = {this.state.twoPlayer}
+                    difficulty = {this.state.difficulty}
+                    tileStyles = {this.state.tileStyles}
+                    newGameCallBack = {(boardSize,difficulty,tileSize,twoPlayer) => this.newGame(boardSize,difficulty,tileSize,twoPlayer)}
                 />;
     } else if (this.state.panel === "rules") {
         panel = <Rules />;
+    } else if (this.state.panel === "undo"){
+        panel = moves;
     }
 
     let toggleStyle;
@@ -336,17 +398,22 @@ class App extends React.Component {
                           
                       <div id="button-collection">
                         <Button 
-                        value="NEW GAME"
-                        onClick={() => this.updatePanel("new")}
-                        /> 
+                        value="HOW TO PLAY"
+                        onClick={() => this.updatePanel("rules")}
+                        />
                         <Button 
                         value="UNDO"
                         onClick={() => this.updatePanel("undo")}
                         />
                         <Button 
-                        value="HOW TO PLAY"
-                        onClick={() => this.updatePanel("rules")}
+                        value="NEW GAME"
+                        onClick={() => this.updatePanel("new")}
+                        /> 
+                        <Button 
+                        value="QUIT"
+                        onClick={() => this.updatePanel("quit")}
                         />
+                        
                       </div>      
 
                       <div id="display">{}
@@ -381,11 +448,13 @@ class App extends React.Component {
             selectedI={this.state.selectedI}
             xIsNext={this.state.xIsNext}
             onClick={(i) => this.handleClick(i)}
-            boardSize = {this.state.boardSize}
             newGame = {this.state.newGame}
             twoPlayer = {this.state.twoPlayer}
+            difficulty = {this.state.difficulty}
+            tileSize = {this.state.tileSize}
+            boardSize = {this.state.boardSize}
+            tileStyles = {this.state.tileStyles}
             historyCallBack = {(squares,teams) => this.historyCallBack(squares,teams)}
-            xIsNextCallBack = {(bool) => this.xIsNextCallBack(bool)}
             messageCallBack = {(message,xy) => this.handleMessage(message,xy)}
           />
           

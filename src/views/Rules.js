@@ -5,8 +5,8 @@ function Rules() {
     <div id="rules_container">
       <ul>
         <li>Capture the red army citadel before it captures yours.</li>
-        <li>Reduce enemy squares to 1, then you can capture.</li>
-        <li>Surround a square of any value on all four sides to convert.</li>
+        <li>Enemy squares must be at their weakest before they can be captures.</li>
+        <li>Surround any enemy square on all four sides to capture it automatically and earn an extra turn.</li>
       </ul>
       
       </div>
