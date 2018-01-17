@@ -11,6 +11,8 @@ class Board extends React.Component {
   renderSquare(i) {
       const boardSize = this.props.boardSize;
       const updateCB = this.props.updateCB;
+      const squares = this.props.squares;
+      const teams = this.props.teams;
       
       if (this.props.teams[i] !== this.props.teams[i+1]){
           //console.log("no match right");
@@ -26,15 +28,19 @@ class Board extends React.Component {
                     //console.log("no match up");
                     //console.log(i);
                     if(this.props.teams[i] === aStyles){
-                        //console.log("blue isolation!");
+                        console.log("blue isolation!");
+                        console.log(i);
+                        console.log(typeof(i));
                         this.props.teams[i] = bStyles;
                         this.props.squares[i] = 1;
-                        updateCB("captured",i);
+                        updateCB(squares,teams,"captured",i);
                     } else {
-                        //console.log("red isolation!");
+                        console.log("red isolation!");
+                        console.log(i);
+                        console.log(typeof(i));
                         this.props.teams[i] = aStyles;
                         this.props.squares[i] = 1;
-                        updateCB("captured",i);
+                        updateCB(squares,teams,"captured",i);
                     }
                    }
                }

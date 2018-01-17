@@ -220,7 +220,7 @@ ul, li {
     -webkit-animation-duration: 8s; /* Safari 4.0 - 8.0 */
     -webkit-animation-iteration-count: infinite;
     animation-name: start-glow;
-    animation-duration: 8s;
+    animation-duration: 4s;
     animation-iteration-count: infinite;
 }
 
@@ -233,12 +233,9 @@ ul, li {
 /* Standard syntax */
 @keyframes start-glow {
     0%   {background-color: white;}
-    30%   {background-color: white;}
-    50%  {background-color: rgba(212,175,55,.6); 
+    50%  {background-color: rgba(212,175,55,.8);
           box-shadow: 0px 0px 20px rgba(212,175,55,.6);
-          border: 1px solid silver;
-          }
-    70%   {background-color: white;}
+        }
     100% {background-color: white;}
 }
 

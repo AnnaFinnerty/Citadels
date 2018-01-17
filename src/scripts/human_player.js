@@ -10,10 +10,8 @@ function human_player(i, playing,squares,teams, boardSize, updateCB) {
         
     const play_result = play(i, playing,squares,teams, boardSize);
     //console.log(play_result);
-    const message = play_result[0];
-     
-    //messageCB(message,i,playing);
-    updateCB(squares,teams,message,i);
+    
+    updateCB(play_result[0],play_result[1],play_result[2],play_result[3]);
 }
 
 export default human_player;

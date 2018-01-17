@@ -17,7 +17,7 @@ class Game extends React.Component {
       boardSize: this.props.boardSize,    
       squares: this.props.squares,
       teams: this.props.teams,
-      stepNumber: 0,
+      stepNumber: this.props.stepNumber,
       xIsNext: this.props.xIsNext,    
       nextTeam: 'A',
       twoPlayer: this.props.twoPlayer,
@@ -49,10 +49,12 @@ class Game extends React.Component {
   updateBoard(squares,teams,message,i){
       console.log("updating board!");
       console.log(message,i)
+      /*
       this.setState({
           squares: squares,
           teams: teams,
       });
+      */
     //save move to history
     this.saveHistory(squares,teams,message,i);     
   }   
@@ -60,11 +62,11 @@ class Game extends React.Component {
   //sends current gamestate info back to historyCallBack in app 
   saveHistory(squares,teams,message,i){
       const callBack = this.props.historyCallBack;
-      
+      console.log("saving history");
+      console.log(this.props.xIsNext);
       //update next player to app
       callBack(squares,teams,message,i);
         
-      //computer player setup
        const boardSize = this.state.boardSize;  
        const messageCB = this.props.messageCallBack;
        const updateCB = this.updateBoard;   
@@ -72,10 +74,10 @@ class Game extends React.Component {
        const difficulty = this.props.difficulty;
        
       //run computer player after delay if two player is true  
-       if (this.props.twoPlayer && this.props.xIsNext){
+       if (this.props.xIsNext === true && this.props.twoPlayer){
         //console.log("computer player go!")
         setTimeout(function(){
-          computer_player(!playing,difficulty,squares,teams,boardSize, updateCB,messageCB)}, 1000)
+          computer_player(!playing,difficulty,squares,teams,boardSize, updateCB)}, 1000)
         }
       
       //this is where auto mode will hook in
@@ -95,9 +97,8 @@ class Game extends React.Component {
             boardSize={this.props.boardSize}
             tileSize={this.props.tileSize}
             onClick={(i) => this.handleClick(i)}
-            updateCB={(squares,teams,playing) => this.updateBoard(squares,teams,playing)}
+            updateCB={(squares,teams,message,i) => this.updateBoard(squares,teams,message,i)}
             xIsNext = {this.props.xIsNext}
-            nextTeam = {this.state.nextTeam}
           />
     );
   }

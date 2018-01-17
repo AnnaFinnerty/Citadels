@@ -32,7 +32,7 @@ class App extends React.Component {
       twoPlayer: false,
       boardSize: 10,    
       difficulty: "easy",
-      tileSize: "5vw",
+      tileSize: "6.5vw",
       tileStyles:[aStyles,bStyles],
       sideBar: true,    
       panel: "none",
@@ -45,7 +45,7 @@ class App extends React.Component {
   
   //new game on load    
   componentWillMount(){
-      this.newGame(10,"easy","5vw",false);
+      this.newGame(10,"easy","6.5vw",false);
   }    
    
   //give each square a random starting value greater than one and less than four    
@@ -148,14 +148,18 @@ class App extends React.Component {
    
   //create history    
   historyCallBack(squares,teams,message,i){
+      console.log("history call back");
       const history = this.state.history;
       const newMessage = this.writeMessage(message,i);
+      
+      //don't advance to the next player if a tile is unplayable
       let nextX;
-      if(message === "capture"){
-          nextX = this.state.xIsNext;
+      if(message === "unplayable"){
+          nextX = this.state.xIsNext ? true : false;
       } else {
           nextX = this.state.xIsNext ? false : true;
       }
+      
       this.setState({
               history: history.concat([{
                        squares: squares,
@@ -207,7 +211,8 @@ class App extends React.Component {
               newMessage = "Oops! You can't make that move.";
               //this.xIsNextCallBack(false);
               break    
-              
+            
+          //the coordinates not working on capture!      
           case "captured":
               newMessage = "The square at " + xy + " was captured! " + team2 + " gets another turn.";
               //this.xIsNextCallBack(false);

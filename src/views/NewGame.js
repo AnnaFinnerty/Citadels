@@ -84,7 +84,7 @@ class NewGame extends Component{
             
             //tilesize button array
             const tilesize_button_array = ["xs","sm","med","lg","xl"];
-            const tilesize_value_array=["2vw","3.5vw","5vw","6.5vw","8vw"]
+            const tilesize_value_array=["3.5vw","6.5vw","9vw","13vw","17vw"]
             const tilesize_buttons = tilesize_value_array.map((value,index) => {
                 let tilesizeStyle;
                 if(this.state.tileSize === value){
@@ -116,6 +116,15 @@ class NewGame extends Component{
             } else {
                 difficulty_settings = <div></div>
             }
+
+            //player settings buttons
+            const aColorSchemes = [
+                "blue",//"blue"
+                "green",
+                "purple",
+                "yellow",
+                "red"];
+            const bColorSchemes = aColorSchemes.slice().reverse();
 
             //add button glow
             let button_id;
@@ -170,6 +179,13 @@ class NewGame extends Component{
                      <div className="buttons">        
                         {tilesize_buttons}
                      </div>
+                     <div className="buttons">
+                         Player 1:
+                         <select>
+                             <option value="option">Green</option>
+                         </select>
+                     </div>
+                     <div className="buttons">Player 2:</div>
                      <div className="buttons">        
                         <button id={button_id}
                                 onClick={this.handleOnSubmit}

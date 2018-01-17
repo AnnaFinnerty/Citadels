@@ -5,12 +5,12 @@ import coordinates from './coordinates';
 import test_surroundings from './test_surroundings';
 import play from './play';
 
-function computer_player(playing, difficulty, squares,teams, boardSize, updateCB, messageCB){
+function computer_player(playing, difficulty, squares,teams, boardSize, updateCB){
     console.log("Computer player's Turn");
-    console.log(squares);
-    console.log(boardSize);
-    console.log(teams);
-    console.log(difficulty);
+    //console.log(squares);
+    //console.log(boardSize);
+    //console.log(teams);
+    //console.log(difficulty);
     
     var possible_moves = choose_hard(boardSize,squares,teams);
     var random = Math.floor(Math.random()*possible_moves.length);
@@ -20,10 +20,8 @@ function computer_player(playing, difficulty, squares,teams, boardSize, updateCB
     
     const play_result = play(i, playing,squares,teams, boardSize);
     //console.log(play_result);
-    const message = play_result[0];
     
-    updateCB(squares,teams,playing);
-    messageCB(message,i,playing);
+    updateCB(play_result[0],play_result[1],play_result[2],play_result[3]);
            
   }    
  
