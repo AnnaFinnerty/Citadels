@@ -1,24 +1,21 @@
-import aStyles from './aStyles';
-import bStyles from './bStyles';
-
 import coordinates from './coordinates';
 import test_surroundings from './test_surroundings';
 import play from './play';
 
-function computer_player(playing, difficulty, squares,teams, boardSize, updateCB){
+function computer_player(playing, difficulty, squares,teams, boardSize, aStyles, bStyles, updateCB){
     console.log("Computer player's Turn");
     //console.log(squares);
     //console.log(boardSize);
     //console.log(teams);
     //console.log(difficulty);
     
-    var possible_moves = choose_hard(boardSize,squares,teams);
+    var possible_moves = choose_hard(boardSize,squares,teams,aStyles, bStyles);
     var random = Math.floor(Math.random()*possible_moves.length);
     //an i is selected
     var i = possible_moves[random];
     
-    
-    const play_result = play(i, playing,squares,teams, boardSize);
+    // that i is played
+    const play_result = play(i, playing,squares,teams, boardSize,aStyles, bStyles);
     //console.log(play_result);
     
     updateCB(play_result[0],play_result[1],play_result[2],play_result[3]);
@@ -28,7 +25,7 @@ function computer_player(playing, difficulty, squares,teams, boardSize, updateCB
 export default computer_player;
 
     // choose function easy mode
-    function choose_easy(boardSize,squares,teams){
+    function choose_easy(boardSize,squares,teams, aStyles, bStyles){
         
         //locate the current citadels
         var red_citadel_spots = [];
@@ -119,7 +116,7 @@ export default computer_player;
 
 
     // choose function hard mode
-    function choose_hard(boardSize,squares,teams){
+    function choose_hard(boardSize,squares,teams,aStyles, bStyles){
         
         //locate the current citadels
         var red_citadel_spots = [];

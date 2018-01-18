@@ -1,9 +1,6 @@
-import aStyles from './aStyles';
-import bStyles from './bStyles';
-
 import testSurroundings from './test_surroundings';
 
-function play(i, playing,squares,teams, boardSize, updateCB) {
+function play(i, playing,squares,teams, boardSize, aStyles,bStyles) {
     //console.log("playing!");
     //console.log(i);
     //console.log(playing);

@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 import Game from './components/Game';
 import Button from './components/Button';
 
-import aStyles from './scripts/aStyles';
-import bStyles from './scripts/bStyles';
+import blueStyles from './scripts/styles/blueStyles';
+import redStyles from './scripts/styles/redStyles';
 
 import chevron_up from './glyphicons/chevron-up.svg';
 import chevron_down from './glyphicons/chevron-down.svg';
@@ -33,7 +33,7 @@ class App extends React.Component {
       boardSize: 10,    
       difficulty: "easy",
       tileSize: "6.5vw",
-      tileStyles:[aStyles,bStyles],
+      tileStyles:[blueStyles,redStyles],
       sideBar: true,    
       panel: "none",
       winner: false,
@@ -45,7 +45,7 @@ class App extends React.Component {
   
   //new game on load    
   componentWillMount(){
-      this.newGame(10,"easy","6.5vw",false);
+      this.newGame(10,"easy","6.5vw",false,blueStyles,redStyles);
   }    
    
   //give each square a random starting value greater than one and less than four    
@@ -78,9 +78,8 @@ class App extends React.Component {
       })
   }    
     
-  newGame(boardSize,difficulty,tileSize,twoPlayer){
-    console.log("NEW GAME!");  
-    console.log(twoPlayer);  
+  newGame(boardSize,difficulty,tileSize,twoPlayer,aStyles,bStyles){
+    console.log("NEW GAME!");    
       
     const squares = Array(boardSize*boardSize).fill(4).map(this.randomSquares);
     const teams = Array(boardSize*boardSize).fill();
@@ -92,9 +91,9 @@ class App extends React.Component {
     //set the team placement on the board
       for(var i=0;i<squares.length;i++){
           if (Math.abs(blueCitadelSite-i) < (boardSize*boardSize)*.35){
-              teams[i] = this.state.tileStyles[0];
+              teams[i] = aStyles;
           } else {
-              teams[i] = this.state.tileStyles[1];
+              teams[i] = bStyles;
           } 
       }  
      
@@ -180,11 +179,11 @@ class App extends React.Component {
       let team1;
       let team2;
       if (this.state.xIsNext){
-          team1 = "Blue";
-          team2 = "Red";
+          team1 = this.state.tileStyles[0][7];
+          team2 = this.state.tileStyles[1][7];
       } else {
-          team1 = "Red";
-          team2 = "Blue";
+          team1 = this.state.tileStyles[1][7];
+          team2 = this.state.tileStyles[0][7];
       }
       //console.log("teams in message");
       //console.log(team1);
@@ -267,39 +266,45 @@ class App extends React.Component {
     const current = history[this.state.stepNumber];
     //console.log(this.state.stepNumber);
     //console.log(current.squares);
+    const aStyles = this.state.tileStyles[0];
+    const bStyles = this.state.tileStyles[1];
       
-    const winner = calculate_winner(current.squares,current.teams);  
+      
+    const winner = calculate_winner(current.squares,current.teams,aStyles,bStyles);  
  
-    const score = calculate_score(current.squares,current.teams); 
+    const score = calculate_score(current.squares,current.teams,aStyles,bStyles); 
 
     const message = this.state.message;  
       
-    const bluescore = score[0]; 
-    const redscore = score[1];
+    const aScore = score[0]; 
+    const bScore = score[1];
       
-    let blueStyle;
-    blueStyle = {
+    let aStyle;
+    aStyle = {
         backgroundImage: `url(${user})`,
         width: '3vw',
         height: '3vw',
         backgroundSize: 'cover',
     }
+    const aLabel = aStyles[7];
     
-    let redStyle;
-    let redIcon;
+    let bStyle;
+    let bIcon;
     if(this.state.twoPlayer){
-        redIcon = computer;
+        bIcon = computer;
     } else {
-        redIcon = user;
+        bIcon = user;
     }
       
-    redStyle = {
-        backgroundImage: `url(${redIcon})`,
+    bStyle = {
+        backgroundImage: `url(${bIcon})`,
         width: '3vw',
         height: '3vw',
         backgroundSize: 'cover',
     }
-      
+    
+    const bLabel = bStyles[7];
+    
     let status;
     let statusClass;
     if (winner && history.length > 2) {
@@ -344,7 +349,7 @@ class App extends React.Component {
                     twoPlayer = {this.state.twoPlayer}
                     difficulty = {this.state.difficulty}
                     tileStyles = {this.state.tileStyles}
-                    newGameCallBack = {(boardSize,difficulty,tileSize,twoPlayer) => this.newGame(boardSize,difficulty,tileSize,twoPlayer)}
+                    newGameCallBack = {(boardSize,difficulty,tileSize,twoPlayer,aStyles,bStyles) => this.newGame(boardSize,difficulty,tileSize,twoPlayer,aStyles,bStyles)}
                 />;
     } else if (this.state.panel === "rules") {
         panel = <Rules />;
@@ -376,11 +381,11 @@ class App extends React.Component {
                           <table>
                           <tbody>
                             <tr>
-                               <td style={blueStyle}></td>
-                               <td style={{color:'blue'}}>{bluescore}</td>
+                               <td style={aStyle}></td>
+                               <td style={{color:'blue'}}>{aScore}</td>
                                <td>|</td>
-                               <td style={{color:'red'}}>{redscore}</td>
-                               <td style={redStyle}></td>
+                               <td style={{color:'red'}}>{bScore}</td>
+                               <td style={bStyle}></td>
                              </tr>
                           </tbody> 
                           </table>       
@@ -419,8 +424,8 @@ class App extends React.Component {
         sidebar = <div className="game-info-top">
                     <div id="title-horizontal">CITADELS</div>
                     <div className="score-info">
-                          <span style={{color:'blue'}}>Blue:  {bluescore}</span> 
-                          <span style={{color:'red'}}> Red:  {redscore}</span>
+                          <span style={{color:aLabel}}>{aLabel}:  {aScore}</span> 
+                          <span style={{color:bLabel}}> {bLabel}:  {bScore}</span>
                     </div>
 
                       <div className="message">

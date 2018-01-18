@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
 
-import aStyles from '../scripts/aStyles';
-import bStyles from '../scripts/bStyles';
-
 import blue1 from '../images/blue1.png';
 import blue2 from '../images/blue2.png';
 import blue3 from '../images/blue3.png';
@@ -25,6 +22,10 @@ class Square extends Component {
       //console.log("SQUARE PROPS");
       //console.log(this.props);
       //console.log(this.props.team[this.props.value]);
+      
+      const aStyles = this.props.tileStyles[0];
+      const bStyles = this.props.tileStyles[1];
+
       
       const value = this.props.value;
       const team = this.props.team;

@@ -1,7 +1,5 @@
-import aStyles from './aStyles';
-import bStyles from './bStyles';
-
-function calculate_winner(squares,teams,callBack) {
+function calculate_winner(squares,teams,aStyles,bStyles) {
+    
   var redCitadel = 0;
   var blueCitadel = 0 ;
       

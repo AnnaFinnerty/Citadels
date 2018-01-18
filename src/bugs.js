@@ -19,6 +19,7 @@ MUST FIX
 // Surround still not working (at least in twoplayer)
 
 BUGS
+* State transition error on capture
 * Capture should not create two history entries
 // Can't increment on own square unless square is touching the opposing team
 // Citadel funky on sizes other than 10x10

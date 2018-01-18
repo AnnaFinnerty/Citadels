@@ -6,9 +6,6 @@ import human_player from '../scripts/human_player';
 import computer_player from '../scripts/computer_player';
 import play from '../scripts/play';
 
-import aStyles from '../scripts/aStyles';
-import bStyles from '../scripts/bStyles';
-
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +18,8 @@ class Game extends React.Component {
       xIsNext: this.props.xIsNext,    
       nextTeam: 'A',
       twoPlayer: this.props.twoPlayer,
-      boardUpdated: false,
+      //boardUpdated: false,
+      tileStyles: this.props.tileStyles,
     };  
     this.handleClick = this.handleClick.bind(this);
     this.updateBoard = this.updateBoard.bind(this);  
@@ -38,11 +36,12 @@ class Game extends React.Component {
     const boardSize = this.props.boardSize;
          
     const playing = this.props.xIsNext;
-    const messageCB = this.props.messageCallBack;
     const updateCB = this.updateBoard;  
     const twoPlayer = this.state.twoPlayer;
+    const aStyles = this.state.tileStyles[0];
+    const bStyles = this.state.tileStyles[1];  
     
-    human_player(i, playing,squares,teams, boardSize, updateCB, messageCB);
+    human_player(i, playing,squares,teams, boardSize, aStyles,bStyles, updateCB);
         
   }
     
@@ -67,17 +66,19 @@ class Game extends React.Component {
       //update next player to app
       callBack(squares,teams,message,i);
         
-       const boardSize = this.state.boardSize;  
-       const messageCB = this.props.messageCallBack;
+       const boardSize = this.props.boardSize;  
+       //const messageCB = this.props.messageCallBack;
        const updateCB = this.updateBoard;   
        const playing = this.props.xIsNext;
        const difficulty = this.props.difficulty;
+       const aStyles = this.props.tileStyles[0];
+       const bStyles = this.props.tileStyles[1];
        
       //run computer player after delay if two player is true  
-       if (this.props.xIsNext === true && this.props.twoPlayer){
+       if (this.props.xIsNext === true && this.props.twoPlayer ===true){
         //console.log("computer player go!")
         setTimeout(function(){
-          computer_player(!playing,difficulty,squares,teams,boardSize, updateCB)}, 1000)
+          computer_player(!playing,difficulty,squares,teams,boardSize, aStyles,bStyles, updateCB)}, 1000)
         }
       
       //this is where auto mode will hook in
@@ -96,6 +97,7 @@ class Game extends React.Component {
             selectedI={this.props.selectedI}
             boardSize={this.props.boardSize}
             tileSize={this.props.tileSize}
+            tileStyles={this.props.tileStyles}
             onClick={(i) => this.handleClick(i)}
             updateCB={(squares,teams,message,i) => this.updateBoard(squares,teams,message,i)}
             xIsNext = {this.props.xIsNext}
