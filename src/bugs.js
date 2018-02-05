@@ -10,8 +10,8 @@ Consists of:
 MUST FIX
 
 * Add about section
-*Undo not working
-*Easy Difficulty
+* Undo not working
+* Difficultys
 * Clear on win
 * Menu shrink not added
 // Saving SelectI and messages not working

@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 import Game from './components/Game';
 import Button from './components/Button';
 
+import computer_player from './scripts/computer_player';
+
 import blueStyles from './scripts/styles/blueStyles';
 import redStyles from './scripts/styles/redStyles';
 
-import chevron_up from './glyphicons/chevron-up.svg';
-import chevron_down from './glyphicons/chevron-down.svg';
 import user from './glyphicons/user.svg';
 import computer from './glyphicons/display.svg';
 
@@ -19,7 +19,8 @@ import coordinates from './scripts/coordinates';
 import Rules from './views/Rules'
 import NewGame from './views/NewGame'
 
-import './index.css';
+import './css/App.css';
+import './css/glyphicons.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -29,23 +30,27 @@ class App extends React.Component {
       stepNumber: 0,
       xIsNext: true,    
       nextTeam: 'A',
-      twoPlayer: false,
+      twoPlayer: true,
       boardSize: 10,    
       difficulty: "easy",
       tileSize: "6.5vw",
       tileStyles:[blueStyles,redStyles],
-      sideBar: true,    
+      sidebar: true,    
       panel: "none",
       winner: false,
       score: [],
       message: "Defend your kingdom! Your enemy plots against you...",
       selectedI: undefined,
-    };     
+    };    
+      this.historyCallBack = this.historyCallBack.bind(this);
+      this.clearGame = this.clearGame.bind(this);
+      this.toggleSidebar = this.toggleSidebar.bind(this);
   }    
   
   //new game on load    
   componentWillMount(){
-      this.newGame(10,"easy","6.5vw",false,blueStyles,redStyles);
+      console.log("component will mount!");
+      this.newGame(10,"easy","6.5vw",true,blueStyles,redStyles);
   }    
    
   //give each square a random starting value greater than one and less than four    
@@ -55,25 +60,26 @@ class App extends React.Component {
    
   //clear game on win    
   clearGame(boardSize){
+      const aStyles = this.state.tileStyles[0];
+      const size = this.state.boardSize * this.state.boardSize;
       this.setState({
           history: [{
-              squares: Array(15).fill(0),
-              teams: Array(15).fill(),
+              squares: Array(size).fill(0),
+              teams: Array(size).fill(aStyles),
           }],
-          stepNumber: 0,
+          stepNumber: 1,
           xIsNext: true,    
           nextTeam: 'A',
-          twoPlayer: false,
-          boardSize: 10,    
-          difficulty: undefined,
-          tileSize: 3.5,
-          aStyle:[],
-          bStyles:[],
+          twoPlayer: this.state.twoPlayer,
+          boardSize: this.state.boardSize,    
+          difficulty: this.state.difficulty,
+          tileSize: this.state.tileSize,
+          tileStyles: this.state.tileStyles,
           sideBar: true,    
-          panel: "none",
-          winner: false,
-          score: [],
-          message: "Defend your kingdom! Your enemy plots against you...",
+          panel: "new",
+          winner: this.state.winner,
+          score: this.state.score,
+          message: this.state.message,
           selectedI: undefined,
       })
   }    
@@ -133,13 +139,13 @@ class App extends React.Component {
           squares: squares,
           teams: teams,
           tileStyles:[aStyles,bStyles],
-          sideBar: true,    
+          sidebar: true,    
           panel: "none",
           winner: false,
           score: [],
           message: "Defend your kingdom! Your enemy plots against you...",
           selectedI: undefined,
-          stepNumber: 0,
+          stepNumber: 1,
           xIsNext: true,    
           nextTeam: 'A',
       })      
@@ -153,7 +159,7 @@ class App extends React.Component {
       
       //don't advance to the next player if a tile is unplayable
       let nextX;
-      if(message === "unplayable"){
+      if(message === "unplayable" || message === "captured"){
           nextX = this.state.xIsNext ? true : false;
       } else {
           nextX = this.state.xIsNext ? false : true;
@@ -161,18 +167,38 @@ class App extends React.Component {
       
       this.setState({
               history: history.concat([{
-                       squares: squares,
-                       teams: teams,
-                       message: newMessage,
-                       selectedI: i,
+                           squares: squares,
+                           teams: teams,
+                           message: newMessage,
+                           selectedI: i,
               }]),
               stepNumber: this.state.stepNumber + 1,
               selectedI: i,
               message: newMessage,
               xIsNext: nextX,
       });
-      //console.log("HISTORY");
-      //console.log(this.state.history);
+      
+      //run computer player after delay if two player is true
+      
+       if (this.state.twoPlayer && !nextX){
+            this.computerTurn(squares, teams); 
+       }
+        
+  }
+    
+  computerTurn(squares, teams){
+      console.log("computer player's turn!") 
+        const playing = this.state.xIsNext;
+        const boardSize = this.state.boardSize
+        const difficulty = this.state.difficulty;
+        const aStyles = this.state.tileStyles[0];
+        const bStyles = this.state.tileStyles[1];
+        const update = this.historyCallBack;
+        //console.log("computer player go!")
+        
+           
+        setTimeout(function(){
+          computer_player(!playing,difficulty,squares,teams,boardSize, aStyles,bStyles, update)}, 1000)
   }    
           
   writeMessage(message,i){
@@ -258,14 +284,23 @@ class App extends React.Component {
         
     }
   }
+    
+  toggleSidebar(){
+      this.setState({
+          sidebar: !this.state.sidebar,
+      })
+  }
         
   render() {
     console.log("App render!");
     console.log(this.state);
+    //console.log("Next X");
+    //console.log(this.state.xIsNext);
     const history = this.state.history;
-    const current = history[this.state.stepNumber];
-    //console.log(this.state.stepNumber);
-    //console.log(current.squares);
+    console.log(this.state.stepNumber);  
+    const current = history[this.state.stepNumber-1];
+    
+    console.log(current.squares);
     const aStyles = this.state.tileStyles[0];
     const bStyles = this.state.tileStyles[1];
       
@@ -310,6 +345,7 @@ class App extends React.Component {
     if (winner && history.length > 2) {
       status = winner + "WINS! Game Over";
       statusClass = "winner-status";
+      this.clearGame();
     } else {
       status = (this.state.xIsNext ? 'BLUE' : 'RED') + "'S TURN";
       statusClass = this.state.xIsNext ? "blue-status" : "red-status";    
@@ -329,7 +365,7 @@ class App extends React.Component {
     const quit = <div id="quit-box">
                     <div className="buttons">
                     <button id="start-button-inactive"
-                                onClick={this.handleOnSubmit}
+                                onClick={this.clearGame}
                          >
                             NEW GAME
                     </button>
@@ -358,20 +394,18 @@ class App extends React.Component {
     }
 
     let toggleStyle;
-    if(this.state.sideBar){
-        toggleStyle = {
-            backgroundImage: `url(${chevron_down})`,
-            width: '3vw',
-            height: '3vw',
-            backgroundSize: 'cover',
-        }
+    if(this.state.sidebar){
+        toggleStyle = "glyphicons glyphicons-minus"
+    } else {
+        toggleStyle = "glyphicons glyphicons-plus"
     }
 
     let sidebar;
-    if (this.state.sideBar === true){
+    if (this.state.sidebar === true){
         sidebar = <div className="game-info">
                       <button id="sidebar_toggle"
-                              style={toggleStyle}      
+                              className={toggleStyle}
+                              onClick={this.toggleSidebar}
                       >
                       </button>
                       
@@ -391,7 +425,7 @@ class App extends React.Component {
                           </table>       
                       </div>   
                       <div className="message">
-                          <div className={statusClass}>{status}</div>
+                          <div id={statusClass}>{status}</div>
                           {message}
                       </div>      
                           
@@ -421,17 +455,21 @@ class App extends React.Component {
                     </div>
                   
     } else {
-        sidebar = <div className="game-info-top">
-                    <div id="title-horizontal">CITADELS</div>
-                    <div className="score-info">
-                          <span style={{color:aLabel}}>{aLabel}:  {aScore}</span> 
-                          <span style={{color:bLabel}}> {bLabel}:  {bScore}</span>
+        sidebar = <div className="game-info-hidden">
+                    <button id="sidebar_toggle_hidden"
+                              className={toggleStyle}
+                              onClick={this.toggleSidebar}
+                      >
+                                  
+                      </button>    
+                    <div id="title-vertical">CITADELS</div>
+                    <div className="score-info-hidden">
+                          <p style={{color:aLabel}}>{aScore}</p> 
+                          <p style={{color:bLabel}}>{bScore}</p>
                     </div>
-
-                      <div className="message">
-                          <div className={statusClass}>{status}</div>
-                          {message}
-                      </div>
+                        <span className="glyphicons glyphicons-user-asterisk"
+                              id={statusClass}
+                            ></span>  
                   </div>    
     }
 
@@ -462,6 +500,6 @@ class App extends React.Component {
   }
 }
 
-// ========================================
+
 
 export default App;

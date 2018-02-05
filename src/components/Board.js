@@ -6,7 +6,7 @@ class Board extends React.Component {
       //this needs a callback to human player/computer player, or to be moved!
   renderSquare(i) {
       const boardSize = this.props.boardSize;
-      const updateCB = this.props.updateCB;
+      const updateCB = this.props.historyCallBack;
       const squares = this.props.squares;
       const teams = this.props.teams;
       const aStyles = this.props.tileStyles[0];
