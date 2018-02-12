@@ -1,7 +1,4 @@
-import aStyles from './aStyles';
-import bStyles from './bStyles';
-
-function calculate_score(squares,teams) {
+function calculate_score(squares,teams,aStyles,bStyles) {
   //console.log("calculating scores!");
   //console.log(squares);
   //console.log(teams);

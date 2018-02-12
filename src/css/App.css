@@ -1,0 +1,363 @@
+body {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  font: 14px "Century Gothic", Futura, sans-serif;
+  background: indigo;
+  overflow: scroll;
+  background: rgb(31, 0, 85);
+}
+
+p{
+    margin: 0;
+}
+
+table{
+    width: 100%;
+}
+
+ol {
+  
+  padding-left: 0%;
+     
+}
+
+ul, li {
+  font-size: 70%;
+  list-style: decimal;
+   margin-left: 4%;
+   padding: 0;
+}
+
+/*Game Board*/
+
+.game {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  margin-top: 2vh;
+}
+
+.board-row{
+    width: auto;
+    display: inline-flex;
+    flex-direction: row;
+    margin: 0;
+    height: auto;
+    box-shadow: .25px 1px 2px 2px dimgray;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.square {
+  background: #fff;
+  color: transparent;
+  border: 1px solid dimgray;
+  float: left;
+  font-weight: bold;   
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  flex: 1 100%;
+  box-shadow: .25px .25px 1px 1px rgba(140,140,140,.3) inset;
+}
+
+.square-selected {
+  background: #fff;
+  color: transparent;
+  border: 2px solid red;
+  float: left;
+  font-size: 2.5vw;
+  font-weight: bold;
+  line-height: 3.5vw;
+  height: 3.5vw;
+  width: 3.5vw;    
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  flex: 1 100%;
+  box-shadow: .25px .25px 1px 1px rgba(140,140,140,.3) inset;
+  -webkit-animation-name: select-blink; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: .6s; /* Safari 4.0 - 8.0 */
+  -webkit-animation-iteration-count: 3;
+  animation-name: select-blink;
+  animation-duration: .6s;
+  animation-iteration-count: 3;    
+}
+
+/* Standard syntax */
+@keyframes select-blink {
+    0%   {border: 1px solid dimgray;}
+    50%  {border: 1px solid dimgray;
+          }
+    51%   {border: 2px solid red;}
+    100% {border: 2px solid red;}
+}
+
+
+.square-lg {
+  height: 5.5vw;
+  width: 5.5vw;    
+}
+
+.square:focus {
+  outline: blue;
+}
+
+.square:hover {
+  color: silver;    
+  border: 1px solid silver;
+  box-shadow: .25px .25px 1px 1px rgba(192,192,192,.6) inset;    
+}
+
+/*SIDEBAR*/
+
+.sidebar{
+    background: whitesmoke;
+    width: auto;
+    height: auto;
+    padding: 1vw;
+    border-radius: 0px 10px 10px 0px;
+    margin-right: 5px;
+    margin-top: -1.5vh;
+    font-size: 3vw;
+    box-shadow: inset 0 0 10px #888888;
+}
+
+.game-info{
+    width: 20vw;
+    height: auto;
+    padding: 1vw;
+    border-radius: 0px 10px 10px 0px;
+    margin-right: 5px;
+    margin-top: -1.5vh;
+}
+
+.game-info-hidden{
+    width: 5vw;
+    height: auto;
+    padding: 1vw;
+    border-radius: 0px 10px 10px 0px;
+    margin-right: 5px;
+    margin-top: -1.5vh;
+}
+
+#sidebar_toggle{
+    font-size: 4vw;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    height: 100;
+    text-align: center;
+    margin-left: 17vw;
+    background: transparent;
+    border: none;
+    margin-bottom: 1vh;
+}
+
+#sidebar_toggle:hover{
+    background: radial-gradient(rgba(60,60,60,.8),transparent 70%);
+    border-radius: 30px;
+    border: 1px solid transparent;
+    color: whitesmoke;
+}
+
+#sidebar_toggle:focus{
+    outline: none;
+}
+
+#sidebar_toggle_hidden{
+    margin-left: 3vw;
+    font-size: 4vw;
+    padding: 0;
+    margin: 0;
+     width: auto;
+    height: 100;
+    text-align: center;
+    background: transparent;
+    border: none;
+    background: transparent;
+    border: none;
+    margin-bottom: 1vh;
+}
+
+#sidebar_toggle_hidden:hover{
+    background: radial-gradient(rgba(60,60,60,.8),transparent 70%);
+    border-radius: 30px;
+    border: 1px solid transparent;
+    color: whitesmoke;
+}
+
+#sidebar_toggle_hidden:focus{
+    outline: none;
+}
+
+#title{
+    margin-top: -2vh;
+    margin-left: -.5vw;
+    font-size: 4.5vw;
+    font-size-adjust: auto;
+    width: 18vw;
+    text-align: center;
+    letter-spacing: .3vw;
+    animation: title-fade;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+}
+
+#title:hover{
+    animation: title-fade;
+    animation-duration: 16s;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: infinite;
+    animation-delay: 3s;
+}
+
+@keyframes title-fade{
+    0% {color:transparent;}
+    100% {color:black;}
+} 
+
+#title-vertical{
+    margin-top: 67vh;
+    margin-left: -3vw;
+    font-size: 9vw;
+    transform: rotate(-90deg);
+	transform-origin: left top 0;
+    text-align: center;
+    animation: title-fade;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    
+}
+
+#title-vertical:hover{
+    animation: title-fade;
+    animation-duration: 16s;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate-reverse;
+    animation-iteration-count: infinite;
+    animation-delay: 3s;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+#button-collection{
+    text-align: center;
+    margin-top: 10px;
+}
+
+.message{
+    font-size: 50%;
+    border: .1px solid black;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+/*Panel*/
+
+.score-info{
+    text-align: center;
+}
+
+.score-info-hidden{
+    text-align: center;
+    margin-top: -14vh;
+}
+
+#blue-status{
+    text-align: center;
+    color: blue;
+    text-decoration: underline;
+}
+
+#red-status{
+    text-align: center;
+    color: maroon;
+    text-decoration: underline;
+}
+
+#display {
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 98%;
+    height: auto;
+    overflow: scroll;
+}
+
+.newPanel {
+    display: block;
+    font-size: 50%;
+    padding: 5px;
+    margin: 1vh;
+    text-align: center;
+}
+
+.buttons{
+    padding: 5px;
+    text-align: center;
+}
+
+.button-active{
+    background: dimgray;
+    border-radius: 5px;
+    color:silver;
+}
+
+#start-button-active{
+    border-radius: 5px;
+    background: rgba(212,175,55,.8);
+    font-weight: 700;
+    -webkit-animation-name: start-glow; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 8s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-iteration-count: infinite;
+    animation-name: start-glow;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+#start-button-inactive{
+    border-radius: 5px;
+    background: silver;
+    font-weight: 500;
+}
+
+/* Standard syntax */
+@keyframes start-glow {
+    0%   {background-color: white;}
+    50%  {background-color: rgba(212,175,55,.8);
+          box-shadow: 0px 0px 20px rgba(212,175,55,.6);
+        }
+    100% {background-color: white;}
+}
+
+/* Webkit Syntax */
+@-webkit-keyframes start-glow {
+    0%   {background-color: white;}
+    50%  {background-color: rgba(212,175,55,.8);;}
+    100% {background-color: white;}
+}
+#quit-box{
+    
+}
+
+#quit-message{
+    font-size: 85%;
+    width: 60%;
+    margin-left: 10%;
+    padding: 10%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
