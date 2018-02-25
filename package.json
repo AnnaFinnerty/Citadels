@@ -1,8 +1,8 @@
 {
-  "name": "citadelsTest",
+  "name": "Citadels",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://LaurieFinnerty.github.io/citadelsTest",
+  "homepage": "http://LaurieFinnerty.github.io/Citadels",
   "dependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
